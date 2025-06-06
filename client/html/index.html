@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Panel</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dev-panel">
+        <div class="panel-header">
+            <h1 data-text="alt:V Developer Tools">alt:V Developer Tools</h1>
+            <button class="close-btn" onclick="closePanel()">ESC</button>
+        </div>
+        
+        <div class="panel-content">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('main')">Core</button>
+                <button class="tab-btn" onclick="showTab('teleport')">Teleport</button>
+                <button class="tab-btn" onclick="showTab('vehicles')">Vehicles</button>
+                <button class="tab-btn" onclick="showTab('environment')">World</button>
+                <button class="tab-btn" onclick="showTab('players')">Players</button>
+                <button class="tab-btn" onclick="showTab('monitor')">System</button>
+            </div>
+            
+            <!-- Main Tab -->
+            <div id="main-tab" class="tab-content active">
+                <div class="section">
+                    <h3>Core Functions</h3>
+                    <div class="button-group">
+                        <button id="noclip-btn" onclick="toggleNoclip()">Noclip: OFF</button>
+                        <button id="godmode-btn" onclick="toggleGodmode()">Godmode: OFF</button>
+                        <button onclick="refreshData()">Refresh Data</button>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>Player Stats</h3>
+                    <div class="input-group">
+                        <label>Health:</label>
+                        <input type="range" id="health-slider" min="0" max="100" value="100" onchange="setHealth(this.value)">
+                        <span id="health-value">100</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Armor:</label>
+                        <input type="range" id="armour-slider" min="0" max="100" value="100" onchange="setArmour(this.value)">
+                        <span id="armour-value">100</span>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>Keybinds</h3>
+                    <div class="info-text">
+                        <p><strong>F2</strong> - Toggle dev panel</p>
+                        <p><strong>ESC</strong> - Close panel</p>
+                        <p><strong>F3</strong> - Toggle noclip</p>
+                        <p><strong>F4</strong> - Toggle godmode</p>
+                        <p><strong>WASD</strong> - Movement in noclip</p>
+                        <p><strong>SPACE/CTRL</strong> - Up/Down in noclip</p>
+                        <p><strong>SHIFT</strong> - Speed boost in noclip</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Teleport Tab -->
+            <div id="teleport-tab" class="tab-content">
+                <div class="section">
+                    <h3>Coordinate Teleport</h3>
+                    <div class="coords-group">
+                        <input type="number" id="tp-x" placeholder="X Coordinate" step="0.1">
+                        <input type="number" id="tp-y" placeholder="Y Coordinate" step="0.1">
+                        <input type="number" id="tp-z" placeholder="Z Coordinate" step="0.1">
+                        <button onclick="teleportToCoords()">Teleport</button>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>Quick Locations</h3>
+                    <div id="locations-list" class="locations-grid">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vehicles Tab -->
+            <div id="vehicles-tab" class="tab-content">
+                <div class="section">
+                    <h3>Vehicle Management</h3>
+                    <div class="button-group">
+                        <button onclick="deleteAllVehicles()" style="background: linear-gradient(135deg, #d32f2f, #f44336);">Delete All Vehicles</button>
+                        <button onclick="deleteSpawnedVehicles()" style="background: linear-gradient(135deg, #f57c00, #ff9800);">Delete Spawned</button>
+                        <button id="vehicle-info-btn" onclick="toggleVehicleInfo()">Vehicle Info: OFF</button>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>Spawn Vehicle</h3>
+                    <div id="vehicles-list" class="vehicles-grid">
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>Custom Vehicle</h3>
+                    <div class="input-group">
+                        <input type="text" id="custom-vehicle" placeholder="Vehicle Model">
+                        <button onclick="spawnCustomVehicle()">Spawn</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Environment Tab -->
+            <div id="environment-tab" class="tab-content">
+                <div class="section">
+                    <h3>Weather Control</h3>
+                    <div id="weather-list" class="weather-grid">
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>Time Control</h3>
+                    <div class="time-group">
+                        <input type="number" id="time-hour" min="0" max="23" value="12" placeholder="Hour">
+                        <input type="number" id="time-minute" min="0" max="59" value="0" placeholder="Minute">
+                        <button onclick="setTime()">Set Time</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Players Tab -->
+            <div id="players-tab" class="tab-content">
+                <div class="section">
+                    <h3>Online Players</h3>
+                    <div id="players-list" class="players-container">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Monitor Tab -->
+            <div id="monitor-tab" class="tab-content">
+                <div class="section">
+                    <h3>Server Performance</h3>
+                    <div id="performance-info" class="performance-grid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 

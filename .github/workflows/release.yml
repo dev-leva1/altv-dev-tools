@@ -1,0 +1,64 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Get version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      
+    - name: Create Release Archive
+      run: |
+        # Create a clean directory for the release
+        mkdir -p release/dev
+        
+        # Copy all necessary files
+        cp -r client/ release/dev/
+        cp -r server/ release/dev/
+        cp -r shared/ release/dev/
+        cp resource.toml release/dev/
+        cp README.md release/dev/
+        cp LICENSE release/dev/
+        cp CHANGELOG.md release/dev/
+        cp INSTALLATION.md release/dev/
+        
+        # Create archive
+        cd release
+        zip -r ../altv-dev-tools-${{ steps.get_version.outputs.VERSION }}.zip dev/
+        
+    - name: Generate Release Notes
+      id: release_notes
+      run: |
+        # Extract latest version from CHANGELOG.md
+        awk '/^## \[.*\]/{if(found) exit; found=1; next} found && /^## \[/{exit} found' CHANGELOG.md > RELEASE_NOTES.md
+        
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: alt:V Developer Tools ${{ steps.get_version.outputs.VERSION }}
+        body_path: RELEASE_NOTES.md
+        draft: false
+        prerelease: false
+        
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./altv-dev-tools-${{ steps.get_version.outputs.VERSION }}.zip
+        asset_name: altv-dev-tools-${{ steps.get_version.outputs.VERSION }}.zip
+        asset_content_type: application/zip 
