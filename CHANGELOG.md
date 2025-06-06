@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2024-12-XX
+
+### ✨ Added
+- **Camera-based Noclip**: Flight now follows camera direction instead of player orientation for intuitive control
+- **Teleport to Waypoint**: Smart teleportation to map waypoint with multi-layer ground detection
+- **Invisibility Mode (F5)**: Toggle player visibility using setEntityVisible and setEntityAlpha
+- **Super Jump (F6)**: Velocity-based jumping system with 500ms cooldown
+- **Infinite Ammo**: Automatic ammunition replenishment for all weapons
+- **Freeze Time**: Stop game time progression while maintaining player control
+- **Movement Speed Multiplier**: Adjustable speed from 0.1x to 5.0x with smooth transitions
+- **Position Saving System**: Save and load named locations for quick access
+- **Explosion Creation**: Create explosions at player position with proper parameters
+- **Heal All Players**: Restore health and armor for all connected players
+- **Vehicle Management**: Delete all vehicles or only spawned ones with tracking
+- **Vehicle Information Display**: SAMP-style /dl system showing vehicle details
+- **Advanced UI Section**: Speed slider and additional utility controls
+- **Enhanced Vehicle List**: Military (Hydra, Rhino, Lazer), Service, and Utility vehicles
+
+### 🔄 Changed
+- **Noclip Movement**: Replaced player rotation-based movement with camera direction using getGameplayCamRot
+- **Movement System**: Implemented proper directional movement with normalized vectors
+- **Speed Calculation**: Fixed exponential growth issue with linear multiplication system
+- **Ground Detection**: Enhanced waypoint teleportation with multiple fallback methods
+- **UI Layout**: Reorganized interface with better function grouping and descriptions
+- **Event System**: Added new events for all enhanced functionality
+- **State Management**: Improved player state tracking with additional properties
+
+### 🔒 Security
+- **Server Validation**: All critical operations validated server-side
+- **Input Sanitization**: Parameter checking for all user inputs
+- **Anti-cheat Ready**: Server-authoritative design prevents client manipulation
+
 ## [2.0.0] - 2024-01-XX
 
 ### ✨ Added

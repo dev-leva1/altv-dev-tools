@@ -3,45 +3,52 @@
 [![alt:V](https://img.shields.io/badge/alt:V-Compatible-00A2FF?style=flat-square&logo=altv)](https://altv.mp/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://www.javascript.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square)](https://github.com/dev-leva1/altv-dev-tools)
+[![Version](https://img.shields.io/badge/Version-3.0.0-blue?style=flat-square)](https://github.com/dev-leva1/altv-dev-tools)
 
-A comprehensive developer tools resource for alt:V Multiplayer servers. Features a modern, minimalist interface with noclip, godmode, teleportation, vehicle spawning, world management, and performance monitoring.
+A comprehensive developer tools resource for alt:V Multiplayer servers. Features camera-based noclip, waypoint teleportation, invisibility, super jump, infinite ammo, time control, and advanced utilities with a modern minimalist interface.
 
 ![alt:V Developer Tools](https://i.ibb.co/xKrxXNbD/911-EA3-F7-9-BD7-4338-9044-C767-D523-EA0-A.png)
 ## ✨ Features
 
 ### 🎮 **Core Functions**
-- **Noclip** - Fly and pass through walls
-- **Godmode** - Player invincibility
-- **Health & Armor** - Adjustable from 0-100
-- **Hotkeys** - Quick access keyboard shortcuts
+- **Camera-based Noclip** - Intuitive flight following camera direction
+- **Godmode** - Player invincibility with server validation
+- **Health & Armor** - Adjustable from 0-100 with instant updates
+- **Enhanced Hotkeys** - F2-F6 for quick access to all functions
 
 ### 🚀 **Teleportation**
+- **Smart Waypoint Teleport** - Teleport to map waypoint with ground detection
 - **Coordinate Teleport** - Precise movement to any location
 - **Quick Locations** - Predefined hotspots (Airport, Vinewood, etc.)
-- **Player Teleport** - Teleport to other players
-- **Bring Player** - Teleport players to your location
+- **Player Management** - Teleport to/bring players with validation
+- **Position Saving** - Save and load named locations
 
 ### 🚗 **Vehicle Management**
-- **Vehicle Spawning** - Quick spawn popular vehicles
-- **Custom Models** - Enter any vehicle model name
+- **Enhanced Vehicle Library** - Military, Service, and Utility vehicles
+- **Custom Models** - Enter any vehicle model name with validation
 - **Auto Enter** - Automatically enters spawned vehicle
-- **Mass Deletion** - Remove all or spawned-only vehicles
+- **Smart Deletion** - Remove all vehicles or track spawned-only
+- **Vehicle Information** - SAMP-style display system
 
 ### 🌍 **World Control**
-- **Weather Control** - All GTA V weather types
-- **Time Setting** - Precise time of day control
-- **Global Changes** - Affects all connected players
+- **Weather Control** - All GTA V weather types with instant switching
+- **Time Management** - Precise time control with freeze option
+- **Global Synchronization** - Changes affect all connected players
 
 ### 👥 **Player Management**
-- **Online List** - Information about all connected players
-- **Player Stats** - Health, armor, ping, position data
-- **Quick Actions** - Teleport to/bring players instantly
+- **Online List** - Real-time information about all connected players
+- **Player Stats** - Health, armor, ping, position with live updates
+- **Quick Actions** - Teleport to/bring players with server validation
+- **Mass Actions** - Heal all players, manage groups
 
-### 📊 **Performance Monitoring**
-- **Server Performance** - Memory usage, uptime tracking
-- **Object Counts** - Players, vehicles, entities
-- **Real-time Data** - Auto-refreshing statistics
+### 📊 **Advanced Features**
+- **Invisibility Mode** - Toggle player visibility (F5)
+- **Super Jump** - Enhanced jumping with velocity control (F6)
+- **Infinite Ammo** - Automatic ammunition replenishment
+- **Movement Speed** - Adjustable speed multiplier (0.1x-5.0x)
+- **Time Freeze** - Stop game time while maintaining control
+- **Explosion Creation** - Create explosions at player position
+- **Performance Monitoring** - Real-time server statistics
 
 ## 🎨 **Modern UI Design**
 
@@ -60,16 +67,19 @@ The developer panel features a **minimalist, futuristic design** inspired by alt
 |-----|--------|
 | `F2` | Toggle developer panel |
 | `ESC` | Close developer panel |
-| `F3` | Toggle Noclip |
+| `F3` | Toggle Camera-based Noclip |
 | `F4` | Toggle Godmode |
+| `F5` | Toggle Invisibility |
+| `F6` | Toggle Super Jump |
 
-### **Noclip Controls**
+### **Enhanced Noclip Controls**
 | Key | Action |
 |-----|--------|
-| `WASD` | Horizontal movement |
-| `Space` | Move up |
+| `WASD` | Camera-direction movement |
+| `Space` | Move up / Super Jump |
 | `Ctrl` | Move down |
 | `Shift` | Speed boost (hold) |
+| **Speed Slider** | Adjust movement multiplier |
 
 ### **Console Commands**
 | Command | Description |
@@ -83,13 +93,13 @@ The developer panel features a **minimalist, futuristic design** inspired by alt
 
 ## 🖥️ **Interface Overview**
 
-### **Panel Tabs**
-1. **Core** - Main functions and quick commands
-2. **Teleport** - Coordinate and location teleportation
-3. **Vehicles** - Vehicle spawning and management
-4. **World** - Weather and time control
-5. **Players** - Online player management
-6. **System** - Performance monitoring and statistics
+### **Enhanced Panel Tabs**
+1. **Core** - Essential functions with hotkey reference
+2. **Teleport** - Waypoint, coordinates, and saved positions
+3. **Vehicles** - Enhanced spawning with vehicle information
+4. **World** - Weather control and time management
+5. **Players** - Online management with mass actions
+6. **System** - Performance monitoring and advanced features
 
 ### **UI Features**
 - **Modern Design** - Minimalist black & white theme
@@ -113,12 +123,16 @@ dev/
     └── script.js          # JavaScript logic
 ```
 
-### **Events**
-- `dev:toggleNoclip` - Toggle noclip state
-- `dev:teleport` - Coordinate teleportation
-- `dev:spawnVehicle` - Vehicle creation
-- `dev:setWeather` - Weather modification
-- `dev:getPerformance` - Performance data request
+### **Enhanced Events**
+- `dev:toggleNoclip` - Camera-based noclip toggle
+- `dev:teleportToWaypoint` - Smart waypoint teleportation
+- `dev:toggleInvisible` - Invisibility mode toggle
+- `dev:toggleSuperJump` - Super jump toggle
+- `dev:setMovementSpeed` - Movement speed multiplier
+- `dev:toggleFreezeTime` - Time freeze control
+- `dev:savePosition` - Position saving system
+- `dev:createExplosion` - Explosion creation
+- `dev:infiniteAmmo` - Infinite ammunition toggle
 
 ### **Security**
 - **Server Validation** - All actions verified server-side
@@ -217,16 +231,24 @@ debug = true
 
 ## 📝 **Changelog**
 
-### **v2.0.0** - Latest
-- Complete UI redesign with minimalist aesthetic
-- Updated to alt:V latest compatibility
+### **v3.0.0** - Latest
+- Camera-based noclip with intuitive controls
+- Smart waypoint teleportation with ground detection
+- Advanced functions: invisibility, super jump, infinite ammo
+- Time freeze and movement speed control
+- Position saving and explosion creation
+- Enhanced vehicle management and information display
+- Production-ready code with optimized performance
+
+### **v2.0.0** - UI Redesign
+- Complete minimalist UI redesign
 - Enhanced performance monitoring
 - Improved security measures
 - English localization
 
 ### **v1.0.0** - Initial Release
-- Basic developer tools
-- Noclip and godmode functionality
+- Basic developer tools foundation
+- Core noclip and godmode functionality
 - Vehicle spawning system
 - World management features
 

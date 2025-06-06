@@ -33,7 +33,24 @@
                     <div class="button-group">
                         <button id="noclip-btn" onclick="toggleNoclip()">Noclip: OFF</button>
                         <button id="godmode-btn" onclick="toggleGodmode()">Godmode: OFF</button>
+                        <button id="invisible-btn" onclick="toggleInvisible()">Invisible: OFF</button>
+                        <button id="super-jump-btn" onclick="toggleSuperJump()">Super Jump: OFF</button>
+                        <button id="infinite-ammo-btn" onclick="toggleInfiniteAmmo()">Infinite Ammo: OFF</button>
                         <button onclick="refreshData()">Refresh Data</button>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>Advanced Functions</h3>
+                    <div class="button-group">
+                        <button id="freeze-time-btn" onclick="toggleFreezeTime()">Freeze Time: OFF</button>
+                        <button onclick="createExplosion()">Create Explosion</button>
+                        <button onclick="healAllPlayers()">Heal All Players</button>
+                    </div>
+                    <div class="input-group">
+                        <label>Movement Speed:</label>
+                        <input type="range" id="speed-slider" min="0.1" max="5.0" step="0.1" value="1.0" onchange="setMovementSpeed(this.value)">
+                        <span id="speed-value">1.0</span>
                     </div>
                 </div>
                 
@@ -58,7 +75,9 @@
                         <p><strong>ESC</strong> - Close panel</p>
                         <p><strong>F3</strong> - Toggle noclip</p>
                         <p><strong>F4</strong> - Toggle godmode</p>
-                        <p><strong>WASD</strong> - Movement in noclip</p>
+                        <p><strong>F5</strong> - Toggle invisible</p>
+                        <p><strong>F6</strong> - Toggle super jump</p>
+                        <p><strong>WASD</strong> - Movement in noclip (camera direction)</p>
                         <p><strong>SPACE/CTRL</strong> - Up/Down in noclip</p>
                         <p><strong>SHIFT</strong> - Speed boost in noclip</p>
                     </div>
@@ -78,8 +97,28 @@
                 </div>
                 
                 <div class="section">
+                    <h3>Waypoint Teleport</h3>
+                    <div class="button-group">
+                        <button onclick="teleportToWaypoint()">Teleport to Waypoint</button>
+                    </div>
+                    <div class="info-text">
+                        <p>Set a waypoint on the map (M key) and click the button to teleport there</p>
+                    </div>
+                </div>
+                
+                <div class="section">
                     <h3>Quick Locations</h3>
                     <div id="locations-list" class="locations-grid">
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>Saved Positions</h3>
+                    <div class="coords-group">
+                        <input type="text" id="save-name" placeholder="Position Name">
+                        <button onclick="saveCurrentPosition()">Save Position</button>
+                    </div>
+                    <div id="saved-positions-list" class="locations-grid">
                     </div>
                 </div>
             </div>

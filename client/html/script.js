@@ -1,6 +1,12 @@
 let currentStates = {
     noclip: false,
     godmode: false,
+    invisible: false,
+    superJump: false,
+    freezeTime: false,
+    infiniteAmmo: false,
+    movementSpeed: 1.0,
+    savedPositions: [],
     vehicles: {},
     weather: [],
     locations: {}
@@ -153,6 +159,71 @@ function bringPlayer(playerId) {
 function refreshData() {
     if ('alt' in window) {
         alt.emit('dev:refreshData');
+    }
+}
+
+function toggleInvisible() {
+    if ('alt' in window) {
+        alt.emit('dev:toggleInvisible');
+    }
+}
+
+function toggleSuperJump() {
+    if ('alt' in window) {
+        alt.emit('dev:toggleSuperJump');
+    }
+}
+
+function toggleInfiniteAmmo() {
+    if ('alt' in window) {
+        alt.emit('dev:infiniteAmmo');
+    }
+}
+
+function toggleFreezeTime() {
+    if ('alt' in window) {
+        alt.emit('dev:toggleFreezeTime');
+    }
+}
+
+function setMovementSpeed(value) {
+    document.getElementById('speed-value').textContent = value;
+    if ('alt' in window) {
+        alt.emit('dev:setMovementSpeed', parseFloat(value));
+    }
+}
+
+function createExplosion() {
+    if ('alt' in window) {
+        alt.emit('dev:createExplosion');
+    }
+}
+
+function healAllPlayers() {
+    if ('alt' in window) {
+        alt.emit('dev:healAllPlayers');
+    }
+}
+
+function teleportToWaypoint() {
+    if ('alt' in window) {
+        alt.emit('dev:teleportToWaypoint');
+    }
+}
+
+function saveCurrentPosition() {
+    const name = document.getElementById('save-name').value.trim();
+    if (name) {
+        if ('alt' in window) {
+            alt.emit('dev:savePosition', name);
+        }
+        document.getElementById('save-name').value = '';
+    }
+}
+
+function loadSavedPosition(name) {
+    if ('alt' in window) {
+        alt.emit('dev:loadPosition', name);
     }
 }
 
@@ -310,48 +381,61 @@ function toggleVehicleInfo() {
 function updateStates(states) {
     currentStates = { ...currentStates, ...states };
     
-    document.getElementById('noclip-btn').textContent = `Noclip: ${states.noclip ? 'ON' : 'OFF'}`;
-    document.getElementById('godmode-btn').textContent = `Godmode: ${states.godmode ? 'ON' : 'OFF'}`;
-    
-    const noclipBtn = document.getElementById('noclip-btn');
-    const godmodeBtn = document.getElementById('godmode-btn');
-    
-    if (states.noclip) {
-        noclipBtn.style.background = '#ffffff';
-        noclipBtn.style.color = '#000000';
-        noclipBtn.style.borderColor = '#ffffff';
-    } else {
-        noclipBtn.style.background = 'transparent';
-        noclipBtn.style.color = '#ffffff';
-        noclipBtn.style.border = '1px solid #333333';
-    }
-    
-    if (states.godmode) {
-        godmodeBtn.style.background = '#ffffff';
-        godmodeBtn.style.color = '#000000';
-        godmodeBtn.style.borderColor = '#ffffff';
-    } else {
-        godmodeBtn.style.background = 'transparent';
-        godmodeBtn.style.color = '#ffffff';
-        godmodeBtn.style.border = '1px solid #333333';
-    }
+    updateButtonState('noclip-btn', `Noclip: ${states.noclip ? 'ON' : 'OFF'}`, states.noclip);
+    updateButtonState('godmode-btn', `Godmode: ${states.godmode ? 'ON' : 'OFF'}`, states.godmode);
+    updateButtonState('invisible-btn', `Invisible: ${states.invisible ? 'ON' : 'OFF'}`, states.invisible);
+    updateButtonState('super-jump-btn', `Super Jump: ${states.superJump ? 'ON' : 'OFF'}`, states.superJump);
+    updateButtonState('infinite-ammo-btn', `Infinite Ammo: ${states.infiniteAmmo ? 'ON' : 'OFF'}`, states.infiniteAmmo);
+    updateButtonState('freeze-time-btn', `Freeze Time: ${states.freezeTime ? 'ON' : 'OFF'}`, states.freezeTime);
 
     if (states.vehicleInfo !== undefined) {
         const vehicleInfoBtn = document.getElementById('vehicle-info-btn');
         if (vehicleInfoBtn) {
             vehicleInfoBtn.textContent = `Vehicle Info: ${states.vehicleInfo ? 'ON' : 'OFF'}`;
             if (states.vehicleInfo) {
-                vehicleInfoBtn.style.background = 'linear-gradient(135deg, #2e7d32, #388e3c)';
+                vehicleInfoBtn.style.background = '#ffffff';
+                vehicleInfoBtn.style.color = '#000000';
+                vehicleInfoBtn.style.borderColor = '#ffffff';
             } else {
                 vehicleInfoBtn.style.background = 'transparent';
+                vehicleInfoBtn.style.color = '#ffffff';
                 vehicleInfoBtn.style.border = '1px solid #333333';
             }
+        }
+    }
+
+    if (states.movementSpeed !== undefined) {
+        const speedSlider = document.getElementById('speed-slider');
+        const speedValue = document.getElementById('speed-value');
+        if (speedSlider && speedValue) {
+            speedSlider.value = states.movementSpeed;
+            speedValue.textContent = states.movementSpeed;
         }
     }
     
     populateLocations(states.locations);
     populateVehicles(states.vehicles);
     populateWeather(states.weather);
+    
+    if (states.savedPositions) {
+        populateSavedPositions(states.savedPositions);
+    }
+}
+
+function updateButtonState(buttonId, text, isActive) {
+    const button = document.getElementById(buttonId);
+    if (button) {
+        button.textContent = text;
+        if (isActive) {
+            button.style.background = '#ffffff';
+            button.style.color = '#000000';
+            button.style.borderColor = '#ffffff';
+        } else {
+            button.style.background = 'transparent';
+            button.style.color = '#ffffff';
+            button.style.border = '1px solid #333333';
+        }
+    }
 }
 
 function populateLocations(locations) {
@@ -389,6 +473,21 @@ function populateWeather(weatherTypes) {
         button.className = 'weather-btn';
         button.textContent = weather;
         button.onclick = () => setWeather(weather);
+        container.appendChild(button);
+    });
+}
+
+function populateSavedPositions(positions) {
+    const container = document.getElementById('saved-positions-list');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    positions.forEach(positionName => {
+        const button = document.createElement('button');
+        button.className = 'location-btn';
+        button.textContent = positionName;
+        button.onclick = () => loadSavedPosition(positionName);
         container.appendChild(button);
     });
 }
